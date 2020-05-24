@@ -1,12 +1,12 @@
 /** 
- *  SVGPan library 1.2.2
+ *  SVGPan library 1.2.3
  * ======================
  *
  * Given an unique existing element with id "viewport" (or when missing, the 
  * first g-element), including the the library into any SVG adds the following 
  * capabilities:
  *
- *  - Mouse panning
+ *  - Mouse panning (with ALT key pressed optionally)
  *  - Mouse zooming (using the wheel)
  *  - Object dragging
  *
@@ -53,6 +53,7 @@ var enablePan = 1; // 1 or 0: enable or disable panning (default enabled)
 var enableZoom = 1; // 1 or 0: enable or disable zooming (default enabled)
 var enableDrag = 0; // 1 or 0: enable or disable dragging (default disabled)
 var zoomScale = 0.2; // Zoom sensitivity
+var enablePanWithAltKeyOnly = 0; // enable panning only when Alt key is pressed (allow text selection in SVG)
 
 /// <====
 /// END OF CONFIGURATION 
@@ -184,6 +185,10 @@ function handleMouseWheel(evt) {
  * Handle mouse move event.
  */
 function handleMouseMove(evt) {
+  if (enablePanWithAltKeyOnly && !evt.altKey) {
+    return;
+  }
+
 	if(evt.preventDefault)
 		evt.preventDefault();
 
@@ -212,6 +217,10 @@ function handleMouseMove(evt) {
  * Handle click event.
  */
 function handleMouseDown(evt) {
+  if (enablePanWithAltKeyOnly && !evt.altKey) {
+    return;
+  }
+
 	if(evt.preventDefault)
 		evt.preventDefault();
 
@@ -259,4 +268,3 @@ function handleMouseUp(evt) {
 		state = '';
 	}
 }
-
